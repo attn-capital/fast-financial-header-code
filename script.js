@@ -82,8 +82,13 @@
 })();
 
 (function loadTaboolaPixel() {
-  window._tfa = window._tfa || [];
+  // Fallback to prevent early reference errors
+  if (typeof window._tfa === 'undefined') {
+    window._tfa = [];
+  }
+
   window._tfa.push({ notify: 'event', name: 'page_view', id: 1790277 });
+
   (function(t, f, a, x) {
     if (!document.getElementById(x)) {
       t.async = 1;
