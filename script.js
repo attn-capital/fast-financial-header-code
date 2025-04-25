@@ -1,4 +1,21 @@
 // HEADER CODE - fast-financial-header-code/script.js
+(function loadGoogleTags() {
+  const ids = ['G-7NM5GSL59L', 'AW-16661394375'];
+
+  ids.forEach(id => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    script.onload = function() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id);
+    };
+    document.head.appendChild(script);
+  });
+})();
 
 (function loadTaboolaPixel() {
   if (typeof window._tfa === 'undefined') {
@@ -92,21 +109,5 @@
   })(window, document, 'ttq');
 })();
 
-(function loadGoogleTags() {
-  const ids = ['G-7NM5GSL59L', 'AW-16661394375'];
 
-  ids.forEach(id => {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
-    script.onload = function() {
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', id);
-    };
-    document.head.appendChild(script);
-  });
-})();
 
