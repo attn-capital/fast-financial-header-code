@@ -62,8 +62,7 @@
     w.TiktokAnalyticsObject = t;
     const ttq = (w[t] = w[t] || []);
     ttq.methods = [
-      'page', 'track', 'identify', 'instances', 'debug', 'on', 'off', 'once', 'ready',
-      'alias', 'group', 'enableCookie', 'disableCookie', 'holdConsent', 'revokeConsent', 'grantConsent'
+      'page', 'track', 'identify', 'instances', 'debug', 'on', 'off', 'once', 'ready', 'alias', 'group', 'enableCookie', 'disableCookie', 'holdConsent', 'revokeConsent', 'grantConsent'
     ];
     ttq.setAndDefer = function(obj, method) {
       obj[method] = function() {
@@ -78,26 +77,18 @@
       ttq.methods.forEach(m => ttq.setAndDefer(inst, m));
       return inst;
     };
-    ttq.load = function(e, n) {
-      const r = 'https://analytics.tiktok.com/i18n/pixel/events.js';
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.async = true;
-      script.src = `${r}?sdkid=${e}&lib=${t}`;
-      const firstScript = document.getElementsByTagName('script')[0];
-      firstScript.parentNode.insertBefore(script, firstScript);
-      ttq._i = ttq._i || {};
-      ttq._i[e] = [];
-      ttq._i[e]._u = r;
-      ttq._t = ttq._t || {};
-      ttq._t[e] = +new Date();
-      ttq._o = ttq._o || {};
-      ttq._o[e] = n || {};
-    };
+    ttq._i = ttq._i || {};
 
-    ttq.load('CTB010RC77U9L9BMQMV0');
-    ttq.page();
-    console.log('TikTok pixel loaded.');
+    const script = d.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=CTB010RC77U9L9BMQMV0&lib=' + t;
+    script.onload = function() {
+      ttq.load('CTB010RC77U9L9BMQMV0');
+      ttq.page(); // <-- MOVE INSIDE onload
+    };
+    const firstScript = d.getElementsByTagName('script')[0];
+    firstScript.parentNode.insertBefore(script, firstScript);
   })(window, document, 'ttq');
 })();
 
@@ -108,15 +99,14 @@
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    script.onload = function() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id);
+    };
     document.head.appendChild(script);
   });
-
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  window.gtag = gtag;
-  gtag('js', new Date());
-
-  ids.forEach(id => gtag('config', id));
-
-  console.log('Google Tags initialized.');
 })();
+
